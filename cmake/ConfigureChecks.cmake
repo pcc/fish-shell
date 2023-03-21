@@ -182,19 +182,19 @@ cmake_pop_check_state()
 
 check_type_size("wchar_t[8]" WCHAR_T_BITS LANGUAGE CXX)
 
-set(TPARM_INCLUDES)
+set(NCURSES_INCLUDES)
 if(HAVE_NCURSES_H)
-  set(TPARM_INCLUDES "${TPARM_INCLUDES}#include <ncurses.h>\n")
+  set(NCURSES_INCLUDES "${NCURSES_INCLUDES}#include <ncurses.h>\n")
 elseif(HAVE_NCURSES_CURSES_H)
-  set(TPARM_INCLUDES "${TPARM_INCLUDES}#include <ncurses/curses.h>\n")
+  set(NCURSES_INCLUDES "${NCURSES_INCLUDES}#include <ncurses/curses.h>\n")
 else()
-  set(TPARM_INCLUDES "${TPARM_INCLUDES}#include <curses.h>\n")
+  set(NCURSES_INCLUDES "${NCURSES_INCLUDES}#include <curses.h>\n")
 endif()
 
 if(HAVE_TERM_H)
-  set(TPARM_INCLUDES "${TPARM_INCLUDES}#include <term.h>\n")
+  set(NCURSES_INCLUDES "${NCURSES_INCLUDES}#include <term.h>\n")
 elseif(HAVE_NCURSES_TERM_H)
-  set(TPARM_INCLUDES "${TPARM_INCLUDES}#include <ncurses/term.h>\n")
+  set(NCURSES_INCLUDES "${NCURSES_INCLUDES}#include <ncurses/term.h>\n")
 endif()
 
 cmake_push_check_state()
@@ -202,7 +202,7 @@ list(APPEND CMAKE_REQUIRED_LIBRARIES ${CURSES_LIBRARY})
 # Solaris and X/Open-conforming systems have a fixed-args tparm
 check_cxx_source_compiles("
 #define TPARM_VARARGS
-${TPARM_INCLUDES}
+${NCURSES_INCLUDES}
 
 int main () {
   tparm( \"\" );
@@ -215,8 +215,7 @@ int main () {
 # Check if tputs needs a function reading an int or char.
 # The only curses I can find that needs a char is OpenIndiana.
 check_cxx_source_compiles("
-#include <curses.h>
-#include <term.h>
+${NCURSES_INCLUDES}
 
 static int writer(int b) {
     return b;

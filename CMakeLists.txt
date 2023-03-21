@@ -26,11 +26,6 @@ endif()
 
 include(cmake/Rust.cmake)
 
-# Error out when linking statically, it doesn't work.
-if (CMAKE_EXE_LINKER_FLAGS MATCHES ".*-static.*")
-    message(FATAL_ERROR "Fish does not support static linking")
-endif()
-
 # Force colored warnings in Ninja's output, if the compiler has -fdiagnostics-color support.
 # Rationale in https://github.com/ninja-build/ninja/issues/814
 if (CMAKE_GENERATOR STREQUAL "Ninja" AND
