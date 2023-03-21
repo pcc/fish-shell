@@ -444,7 +444,9 @@ class scoped_push {
 wcstring format_string(const wchar_t *format, ...);
 wcstring vformat_string(const wchar_t *format, va_list va_orig);
 void append_format(wcstring &str, const wchar_t *format, ...);
+#ifndef BINDGEN
 void append_formatv(wcstring &target, const wchar_t *format, va_list va_orig);
+#endif
 
 #ifdef HAVE_STD__MAKE_UNIQUE
 using std::make_unique;

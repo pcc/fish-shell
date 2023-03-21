@@ -387,17 +387,23 @@ class output_stream_t : noncopyable_t, nonmovable_t {
 
     /// Append a format string.
     bool append_format(const wchar_t *format, ...) {
+#ifdef BINDGEN
+	return false;
+#else
         va_list va;
         va_start(va, format);
         bool r = append_formatv(format, va);
         va_end(va);
 
         return r;
+#endif
     }
 
+#ifndef BINDGEN
     bool append_formatv(const wchar_t *format, va_list va) {
         return append(vformat_string(format, va));
     }
+#endif
 
     output_stream_t() = default;
     virtual ~output_stream_t() = default;
