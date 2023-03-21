@@ -1131,9 +1131,6 @@ static autoclose_fd_t make_fifo(const wchar_t *test_path, const wchar_t *suffix)
 
     int mkfifo_status = mkfifo(narrow_path.c_str(), 0600);
     if (mkfifo_status == -1 && errno != EEXIST) {
-        const char *error = std::strerror(errno);
-        const wchar_t *errmsg = _(L"Unable to make a pipe for universal variables using '%ls': %s");
-        FLOGF(error, errmsg, vars_path.c_str(), error);
         return autoclose_fd_t{};
     }
 
