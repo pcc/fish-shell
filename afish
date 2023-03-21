@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+here=$(dirname $(readlink $(which $0)))
+
+mkdir -p ~/.adb.fish
+
+tar c -C $here/build.android/inst . | adb shell 'mkdir -p /data/local/tmp/shell && tar x -C /data/local/tmp/shell'
+tar c -C ~/.adb.fish . | adb shell tar x -C /data/local/tmp/shell
+adb shell -t 'cd /data/local/tmp/shell && HOME=/data/local/tmp/shell PATH=/data/local/tmp/shell/bin:$PATH exec fish'
+adb shell tar c -C /data/local/tmp/shell .config .local | tar x -C ~/.adb.fish
